@@ -1,5 +1,6 @@
 import { useAuth, useRequireAuth } from '../hooks/UseAuth';
 import React, { useState } from 'react';
+import { CircularProgress } from '@material-ui/core';
 
 const loginDto = (email: string, password: string) => {
   return {
@@ -26,23 +27,31 @@ function Unauthorized() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [warning, setWarning] = useState('');
+  const [status, setStatus] = useState<'idle' | 'pending'>('idle');
 
   const handleLogin = (e: any) => {
     e.preventDefault();
 
-    login(loginDto(email!!, password!!))
+    setStatus('pending');
+    return login(loginDto(email!!, password!!))
+    // no need to handle then because this will change whole context
+    // and on success this component won't render at all
     .catch(err => {
       setWarning(`Status: ${err.status}, Text: ${err.statusText}`);
+      setStatus('idle');
     });
   };
 
   return (
     <div>
+      {status !== 'pending' &&
       <form>
         <input placeholder="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
         <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
         <button onClick={handleLogin} disabled={!(email && password)}>Login</button>
       </form>
+      }
+      {status === 'pending' && <CircularProgress/>}
       {warning && <div>{warning}</div>}
     </div>
   );

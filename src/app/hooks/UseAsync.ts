@@ -1,9 +1,10 @@
 // Hook
 import { useCallback, useEffect, useState } from 'react';
 
-export default function useAsync<T, E = string>(
-  asyncFunction: () => Promise<T>,
-  immediate = true
+export default function useAsync<T, P, E = string>(
+  asyncFunction: (params: P) => Promise<T>,
+  immediate = false,
+  params: P | null = null
 ) {
   const [status, setStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle');
   const [value, setValue] = useState<T | null>(null);
@@ -13,12 +14,12 @@ export default function useAsync<T, E = string>(
   // handles setting state for pending, value, and error.
   // useCallback ensures the below useEffect is not called
   // on every render, but only if asyncFunction changes.
-  const execute = useCallback(() => {
+  const execute = useCallback((params: P) => {
     setStatus('pending');
     setValue(null);
     setError(null);
 
-    return asyncFunction()
+    return asyncFunction(params)
     .then((response: any) => {
       setValue(response);
       setStatus('success');
@@ -34,9 +35,9 @@ export default function useAsync<T, E = string>(
   // in an onClick handler.
   useEffect(() => {
     if (immediate) {
-      execute();
+      execute(params!!);
     }
-  }, [execute, immediate]);
+  }, [execute, params, immediate]);
 
   return { execute, status, value, error };
 };

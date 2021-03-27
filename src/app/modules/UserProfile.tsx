@@ -1,5 +1,7 @@
 import { useRequireAuth } from '../hooks/UseAuth';
 import { useState } from 'react';
+import useAsync from '../hooks/UseAsync';
+import { CircularProgress } from '@material-ui/core';
 
 export default function UserProfile() {
   const { api, logout } = useRequireAuth();
@@ -7,8 +9,10 @@ export default function UserProfile() {
 
   const handleGetPatients = (e: any) => {
     e.preventDefault();
-    api.apiAdminPatientFilterGet({}).then(p => setPatients(JSON.stringify(p)));
+    return api.apiAdminPatientFilterGet({})
+    .then(p => setPatients(JSON.stringify(p)));
   };
+  const { execute, status } = useAsync(handleGetPatients);
 
   const handleLogout = (e: any) => {
     e.preventDefault();
@@ -18,7 +22,8 @@ export default function UserProfile() {
   return (
     <div>
       <div>
-        <button onClick={handleGetPatients}>Get Patients</button>
+        <button onClick={execute}>Get Patients</button>
+        {status === 'pending' && <CircularProgress/>}
         {patients && <div>{patients}</div>}
       </div>
       <div>
