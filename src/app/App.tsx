@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProvideAuth } from './hooks/UseAuth';
-import Login from './modules/Login';
 import UserProfile from './modules/UserProfile';
+import LoginPage from './pages/login/LoginPage';
+import HomePage from './pages/home/HomePage';
 
 
 function App() {
@@ -11,30 +12,17 @@ function App() {
     <div className="App">
       <ProvideAuth>
         <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="/user">User</Link>
-                </li>
-              </ul>
-            </nav>
-
-            {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-            <Switch>
-              <Route path="/login">
-                <Login/>
-              </Route>
-              <Route path="/user">
-                <UserProfile/>
-              </Route>
-            </Switch>
-
-          </div>
+          <Switch>
+            <Route path="/login">
+              <LoginPage/>
+            </Route>
+            <Route path="/user">
+              <UserProfile/>
+            </Route>
+            <Route path="/">
+              <HomePage/>
+            </Route>
+          </Switch>
         </Router>
       </ProvideAuth>
 
