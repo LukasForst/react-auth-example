@@ -1,25 +1,43 @@
 import React from 'react';
 import './App.css';
-import useAsync from './hooks/UseAsync';
-import { api } from './services/Api';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { ProvideAuth } from './hooks/UseAuth';
+import Login from './modules/Login';
+import UserProfile from './modules/UserProfile';
 
-const data = () => api.apiQuestionsGet();
 
 function App() {
-  const { status, value, error } = useAsync(data, true);
-
   return (
     <div className="App">
-      {status === 'pending' && <div>Pending</div>}
-      {status === 'error' && <div>Error: {error}</div>}
-      {value &&
-      <div>
-        {value.map(q =>
-          <div key={q.id}>
-            Q: {q.cs}
-          </div>)}
-      </div>
-      }
+      <ProvideAuth>
+        <Router>
+          <div>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/user">User</Link>
+                </li>
+              </ul>
+            </nav>
+
+            {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+            <Switch>
+              <Route path="/login">
+                <Login/>
+              </Route>
+              <Route path="/user">
+                <UserProfile/>
+              </Route>
+            </Switch>
+
+          </div>
+        </Router>
+      </ProvideAuth>
+
     </div>
   );
 }
