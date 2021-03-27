@@ -15,7 +15,9 @@ export default function LoginPage({ redirectAfterLogin = '/' }) {
   // guarantee that the user will get redirected
   useEffect(() => {
     if (user) {
-      router.push(redirectAfterLogin);
+      // @ts-ignore sadly I haven't found any other way how to get the redirect
+      const { from } = router.location.state ?? { from: { pathname: redirectAfterLogin } };
+      router.replace(from);
     }
   }, [redirectAfterLogin, router, user]);
 
@@ -42,24 +44,24 @@ export default function LoginPage({ redirectAfterLogin = '/' }) {
   const classes = useStyles();
   return (
     <div className={classes.page}>
-      <form className={classes.form} noValidate autoComplete="off">
-        <TextField required id="email"
+      <form className={classes.form} noValidate autoComplete='off'>
+        <TextField required id='email'
                    error={status === 'error'}
-                   type="email"
-                   label="e-mail"
+                   type='email'
+                   label='e-mail'
                    value={email}
                    disabled={status === 'pending'}
                    onChange={e => handleTyping(e, setEmail)}/>
-        <TextField required id="password"
+        <TextField required id='password'
                    error={status === 'error'}
-                   type="password"
-                   label="password"
+                   type='password'
+                   label='password'
                    value={password}
                    disabled={status === 'pending'}
                    onChange={e => handleTyping(e, setPassword)}/>
         <div>
-          <Button variant="contained"
-                  type="submit"
+          <Button variant='contained'
+                  type='submit'
                   fullWidth
                   onClick={handleLogin}
                   disabled={!(email && password) || status === 'pending'}>

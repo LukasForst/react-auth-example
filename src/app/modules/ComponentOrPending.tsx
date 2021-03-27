@@ -6,10 +6,13 @@ interface ComponentProps {
   children: ReactNode
 }
 
-export default function ComponentOrPending(props: ComponentProps) {
+/**
+ * Simple wrapper that shows progress bar if status == pending.
+ */
+export default function ComponentOrPending({ status, children }: ComponentProps) {
   return (
     <div>
-      {props.status === 'pending' ? (<CircularProgress/>) : props.children}
+      {status === 'pending' ? (<CircularProgress/>) : children}
     </div>
   );
 }

@@ -1,33 +1,27 @@
 import React from 'react';
-import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ProvideAuth } from './hooks/UseAuth';
-import UserProfile from './modules/UserProfile';
-import LoginPage from './pages/login/LoginPage';
-import HomePage from './pages/home/HomePage';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import Routing from './modules/Routing';
 
 
-function App() {
+export default function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <ProvideAuth>
-        <Router>
-          <Switch>
-            <Route path="/login">
-              <LoginPage/>
-            </Route>
-            <Route path="/user">
-              <UserProfile/>
-            </Route>
-            <Route path="/">
-              <HomePage/>
-            </Route>
-          </Switch>
-        </Router>
-      </ProvideAuth>
-
+    <div className={classes.root}>
+      <Routing/>
     </div>
   );
 }
 
-export default App;
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      fontFamily: theme.typography.fontFamily,
+      display: 'flex',
+      alignContent: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      width: '100vw',
+      height: '100vh'
+    }
+  })
+);
