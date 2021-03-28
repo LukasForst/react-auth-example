@@ -1,5 +1,5 @@
 import { ProvideAuth } from '../hooks/UseAuth';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import LoginPage from '../pages/login/LoginPage';
 import PrivateRoute from './PrivateRoute';
 import UserProfile from './UserProfile';
@@ -11,7 +11,7 @@ export const loginRoute = '/login';
 export default function Routing() {
   return (
     <ProvideAuth>
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route path={loginRoute}>
             <LoginPage/>
@@ -25,6 +25,10 @@ export default function Routing() {
             <HomePage/>
           </Route>
         </Switch>
+      </HashRouter>
+      {/* redirect traffic to hashrouter */}
+      <BrowserRouter>
+        {!window.location.hash && (<Redirect to={`#${window.location.pathname}`}/>)}
       </BrowserRouter>
     </ProvideAuth>
   );

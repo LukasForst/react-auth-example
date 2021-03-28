@@ -43,7 +43,9 @@ export default function LoginPage({ redirectAfterLogin = '/' }) {
 
   const classes = useStyles();
   return (
-    <div className={classes.page}>
+    // we use hidden just as a precaution if the suer already exist
+    // to not to "blick" with the login window
+    <div className={classes.page} style={{ visibility: user === null ? 'visible' : 'hidden' }}>
       <form className={classes.form} noValidate autoComplete='off'>
         <TextField required id='email'
                    error={status === 'error'}
