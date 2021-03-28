@@ -4,7 +4,7 @@ import { authorizedApi } from '../services/Api';
 import useApi from './UseApi';
 import useRouter from './UseRouter';
 import useLocalStorage from './UseLocalStorage';
-import { loginRoute } from '../modules/Routing';
+import { routes } from '../modules/Routing';
 
 // @ts-ignore it's going to be replaced after initialization so we don't need to initialize that
 const authContext = createContext<UserService>(undefined);
@@ -72,7 +72,7 @@ function useProvideAuth(): UserService {
 /**
  * Ensures that the application is authenticated, otherwise redirects to redirectUrl.
  */
-export function useRequireAuth(redirectUrl = loginRoute) {
+export function useRequireAuth(redirectUrl = routes.login) {
   const auth = useAuth();
   const router = useRouter();
 

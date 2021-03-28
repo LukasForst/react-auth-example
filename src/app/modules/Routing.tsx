@@ -2,11 +2,17 @@ import { ProvideAuth } from '../hooks/UseAuth';
 import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import LoginPage from '../pages/login/LoginPage';
 import PrivateRoute from './PrivateRoute';
-import UserProfile from './UserProfile';
+import UserProfilePage from '../pages/user/UserProfilePage';
 import HomePage from '../pages/home/HomePage';
 import React from 'react';
+import StatsPage from '../pages/stats/StatsPage';
 
-export const loginRoute = '/login';
+export const routes = {
+  home: '/',
+  login: '/login',
+  stats: '/stats',
+  userProfile: '/user'
+};
 
 /**
  * Creates routing in the application, should be on the top level.
@@ -18,17 +24,21 @@ export default function Routing() {
     <ProvideAuth>
       <HashRouter>
         <Switch>
-          <Route path={loginRoute}>
+          <Route path={routes.login}>
             <LoginPage/>
           </Route>
 
-          <PrivateRoute path="/user">
-            <UserProfile/>
+          <PrivateRoute path={routes.userProfile}>
+            <UserProfilePage/>
           </PrivateRoute>
 
-          <Route path="/">
+          <PrivateRoute path={routes.stats}>
+            <StatsPage/>
+          </PrivateRoute>
+
+          <PrivateRoute path={routes.home}>
             <HomePage/>
-          </Route>
+          </PrivateRoute>
         </Switch>
       </HashRouter>
       {/* redirect traffic to hashrouter */}

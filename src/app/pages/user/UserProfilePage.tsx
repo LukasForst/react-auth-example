@@ -1,9 +1,9 @@
-import { useRequireAuth } from '../hooks/UseAuth';
+import { useRequireAuth } from '../../hooks/UseAuth';
 import { useState } from 'react';
-import useAsync from '../hooks/UseAsync';
+import { useAsyncParams } from '../../hooks/UseAsync';
 import { CircularProgress } from '@material-ui/core';
 
-export default function UserProfile() {
+export default function UserProfilePage() {
   const { api, logout } = useRequireAuth();
   const [patients, setPatients] = useState<string>();
 
@@ -12,7 +12,7 @@ export default function UserProfile() {
     return api.apiAdminPatientFilterGet({})
     .then(p => setPatients(JSON.stringify(p)));
   };
-  const { execute, status } = useAsync(handleGetPatients);
+  const { execute, status } = useAsyncParams(handleGetPatients);
 
   const handleLogout = (e: any) => {
     e.preventDefault();

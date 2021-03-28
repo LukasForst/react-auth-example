@@ -1,6 +1,6 @@
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAuth } from '../hooks/UseAuth';
-import { loginRoute } from './Routing';
+import { routes } from './Routing';
 
 /**
  * Guarantees that the components are displayed only
@@ -15,7 +15,7 @@ export default function PrivateRoute({ children, ...rest }: RouteProps) {
         user ? (children) : (
           <Redirect
             to={{
-              pathname: loginRoute,
+              pathname: routes.login,
               state: { from: location }
             }}
           />
