@@ -1,5 +1,5 @@
 import { DataCorrectnessConfirmationDetailDtoOut, PatientDtoOut, VaccinationDetailDtoOut } from '../../../generated';
-import { useAuth } from '../../../hooks/UseAuth';
+import { useAuthContext } from '../../../hooks/UseAuth';
 import * as React from 'react';
 import { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PatientDetail from './PatientDetail';
 
 export default function PatientRow({ patient }: { patient: PatientDtoOut }) {
-  const { api } = useAuth();
+  const { api } = useAuthContext();
 
   const [open, setOpen] = useState(false);
   const [vaccinationDetail, setVaccinationDetail]

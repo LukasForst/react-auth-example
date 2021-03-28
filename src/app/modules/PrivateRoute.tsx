@@ -1,5 +1,5 @@
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { useAuth } from '../hooks/UseAuth';
+import { useAuthContext } from '../hooks/UseAuth';
 import { routes } from './Routing';
 
 /**
@@ -7,7 +7,7 @@ import { routes } from './Routing';
  * when the user is authenticated.
  */
 export default function PrivateRoute({ children, ...rest }: RouteProps) {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   return (
     <Route
       {...rest}

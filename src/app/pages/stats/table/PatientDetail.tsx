@@ -59,7 +59,7 @@ export default function PatientDetail(
             {vaccinationDetail !== null && (
               <span>
                 <PatientProperty name={'Vaccinated On'} value={vaccinationDetail.vaccinatedOn.toISOString()}/>
-                <PatientProperty name={'Vaccine #'} value={vaccinationDetail.vaccineSerialNumber}/>
+                <PatientProperty name={'Vaccine Serial No.'} value={vaccinationDetail.vaccineSerialNumber}/>
                 <PatientProperty name={'Body Part'} value={vaccinationDetail.bodyPart}/>
                 <PatientProperty name={'ISIN Export'}
                                  value={vaccinationDetail.exportedToIsinOn ?? 'not yet'}/>

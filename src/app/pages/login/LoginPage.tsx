@@ -2,7 +2,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button, CircularProgress } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/UseAuth';
+import { useAuthContext } from '../../hooks/UseAuth';
 import useRouter from '../../hooks/UseRouter';
 
 /**
@@ -10,7 +10,7 @@ import useRouter from '../../hooks/UseRouter';
  */
 export default function LoginPage({ redirectAfterLogin = '/' }) {
   const router = useRouter();
-  const { user, login } = useAuth();
+  const { user, login } = useAuthContext();
 
   // guarantee that the user will get redirected
   useEffect(() => {

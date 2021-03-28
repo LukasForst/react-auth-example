@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { api } from '../services/Api';
+import { api, authorizedApi } from '../services/Api';
 import { DefaultApi } from '../generated';
+import useUser from './UseUser';
 
 const defaultApi = api;
 
 /**
  * Hook that gives access to DefaultApi.
  */
-export default function useApi(initial: DefaultApi | null = null): [DefaultApi, (api: DefaultApi | null) => void] {
-  const [api, setApi] = useState(initial ?? defaultApi);
+export default function useApi(): [DefaultApi, (api: DefaultApi | null) => void] {
+  const [user] = useUser();
+  const [api, setApi] = useState(user ? authorizedApi(user.token) : defaultApi);
 
   const setOrDefault = (api: DefaultApi | null) => {
     setApi(api ?? defaultApi);

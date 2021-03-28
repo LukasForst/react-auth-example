@@ -3,8 +3,8 @@ import { DefaultApi, LoginDtoIn, UserLoginResponseDtoOut } from '../generated';
 import { authorizedApi } from '../services/Api';
 import useApi from './UseApi';
 import useRouter from './UseRouter';
-import useLocalStorage from './UseLocalStorage';
 import { routes } from '../modules/Routing';
+import useUser from './UseUser';
 
 // @ts-ignore it's going to be replaced after initialization so we don't need to initialize that
 const authContext = createContext<UserService>(undefined);
@@ -26,7 +26,7 @@ export function ProvideAuth({ children }: { children: ReactNode }) {
 /**
  * Provides authorization context.
  */
-export function useAuth() {
+export function useAuthContext() {
   return useContext(authContext);
 }
 
@@ -44,8 +44,8 @@ interface UserService {
  * Creates UserService from current context.
  */
 function useProvideAuth(): UserService {
-  const [user, storeUser, deleteUser] = useLocalStorage<UserLoginResponseDtoOut>('user');
-  const [api, setApi] = useApi(user ? authorizedApi(user.token) : null);
+  const [user, storeUser, deleteUser] = useUser();
+  const [api, setApi] = useApi();
 
   const login = async (login: LoginDtoIn) => {
     return api.apiAdminLoginPost({ loginDtoIn: login })
@@ -73,7 +73,7 @@ function useProvideAuth(): UserService {
  * Ensures that the application is authenticated, otherwise redirects to redirectUrl.
  */
 export function useRequireAuth(redirectUrl = routes.login) {
-  const auth = useAuth();
+  const auth = useAuthContext();
   const router = useRouter();
 
   // If auth.user is false that means we're not
