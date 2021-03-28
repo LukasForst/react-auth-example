@@ -8,7 +8,12 @@ import React from 'react';
 
 export const loginRoute = '/login';
 
+/**
+ * Creates routing in the application, should be on the top level.
+ */
 export default function Routing() {
+  // if there's some problem with hashrouter you can try this approach
+  // https://github.com/ReactTraining/history/issues/435
   return (
     <ProvideAuth>
       <HashRouter>
